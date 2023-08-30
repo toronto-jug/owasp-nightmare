@@ -17,6 +17,10 @@ package ca.tjug.owaspnightmare;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,9 +39,14 @@ public class MessagesController {
 	private final List<Message> messages = new ArrayList<>();
 
 	@GetMapping("/")
-	public ModelAndView index(Principal principal, @RequestParam(defaultValue = "false") boolean richText) {
+	public ModelAndView index(
+			@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
+			@AuthenticationPrincipal OAuth2User oauth2User,
+			@RequestParam(defaultValue = "false") boolean richText) {
 		final ModelAndView modelAndView = new ModelAndView("messages");
-		modelAndView.addObject("principal", principal);
+		modelAndView.addObject("userName", oauth2User.getName());
+		modelAndView.addObject("clientName", authorizedClient.getClientRegistration().getClientName());
+		modelAndView.addObject("userAttributes", oauth2User.getAttributes());
 		modelAndView.addObject("messages", messages);
 		modelAndView.addObject("risky", richText);
 
@@ -45,11 +54,11 @@ public class MessagesController {
 	}
 
 	@PostMapping(value = "/message", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public ResponseEntity<Void> submitMessage(Principal principal, @RequestParam String text) {
-		messages.add(new Message(principal.getName(), Instant.now(), text));
+	public ResponseEntity<Void> submitMessage(@RequestParam String text, @AuthenticationPrincipal OAuth2User oauth2User) {
+		messages.add(new Message(oauth2User.getAttribute("name"), oauth2User.getAttribute("picture"), Instant.now(), text));
 		return ResponseEntity.status(302).location(URI.create("/")).build();
 	}
 
-	public record Message(String user, Instant timestamp, String text) {}
+	public record Message(String name, String profileUrl, Instant timestamp, String text) {}
 
 }

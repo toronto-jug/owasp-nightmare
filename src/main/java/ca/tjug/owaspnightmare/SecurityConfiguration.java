@@ -30,8 +30,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
  *
  * @author Rob Winch
  */
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 public class SecurityConfiguration {
 
 	@Bean
@@ -39,12 +39,12 @@ public class SecurityConfiguration {
 		// @formatter:off
 		http
 				// Don't do this at home, kids
-				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests((authorize) -> authorize
-						.anyRequest().authenticated()
-				)
-				.httpBasic(withDefaults())
-				.formLogin(withDefaults());
+				.csrf(AbstractHttpConfigurer::disable);
+//				.authorizeHttpRequests((authorize) -> authorize
+//						.anyRequest().authenticated()
+//				);
+//				.httpBasic(withDefaults())
+//				.formLogin(withDefaults());
 		// @formatter:on
 		return http.build();
 	}

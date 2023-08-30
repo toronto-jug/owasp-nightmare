@@ -7,7 +7,16 @@
 </head>
 <body>
 <div>
-    Welcome, <span th:text="${principal.getName()}">Wrong input!</span>
+    Welcome, <span th:text="${userAttributes.get('name')}">Wrong input!</span>
+    <img th:src="${userAttributes.get('picture')}">
+</div>
+<div>
+    <span style="font-weight:bold">User Attributes:</span>
+    <ul>
+        <li th:each="userAttribute : ${userAttributes}">
+            <span style="font-weight:bold" th:text="${userAttribute.key}"></span>: <span th:text="${userAttribute.value}"></span>
+        </li>
+    </ul>
 </div>
 <div>
     <a id="logout" th:href="@{/logout}">Log Out</a>
@@ -16,13 +25,15 @@
     <thead>
         <tr>
             <th>Timestamp</th>
+            <th>Picture</th>
             <th>User</th>
             <th>Text</th>
         </tr>
     </thead>
     <tr th:each="message: ${messages}">
         <td th:text="${message.timestamp()}">Timestamp</td>
-        <td th:text="${message.user()}">User</td>
+        <td><img th:src="${message.profileUrl()}"></td>
+        <td th:text="${message.name()}">User</td>
         <td th:if="${risky}" th:utext="${message.text()}">Text</td>
         <td th:if="${!risky}" th:text="${message.text()}">Text</td>
     </tr>
