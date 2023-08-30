@@ -23,7 +23,8 @@
     <tr th:each="message: ${messages}">
         <td th:text="${message.timestamp()}">Timestamp</td>
         <td th:text="${message.user()}">User</td>
-        <td th:text="${message.text()}">Text</td>
+        <td th:if="${risky}" th:utext="${message.text()}">Text</td>
+        <td th:if="${!risky}" th:text="${message.text()}">Text</td>
     </tr>
 </table>
 <div>

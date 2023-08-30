@@ -35,10 +35,11 @@ public class MessagesController {
 	private final List<Message> messages = new ArrayList<>();
 
 	@GetMapping("/")
-	public ModelAndView index(Principal principal) {
+	public ModelAndView index(Principal principal, @RequestParam(defaultValue = "false") boolean richText) {
 		final ModelAndView modelAndView = new ModelAndView("messages");
 		modelAndView.addObject("principal", principal);
 		modelAndView.addObject("messages", messages);
+		modelAndView.addObject("risky", richText);
 
 		return modelAndView;
 	}

