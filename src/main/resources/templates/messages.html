@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<body>
+<div>
+    Welcome, <span th:text="${principal.getName()}">Wrong input!</span>
+</div>
+<div>
+    <a id="logout" th:href="@{/logout}">Log Out</a>
+</div>
+</body>
+</html>
