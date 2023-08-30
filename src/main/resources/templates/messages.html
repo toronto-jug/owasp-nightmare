@@ -12,5 +12,26 @@
 <div>
     <a id="logout" th:href="@{/logout}">Log Out</a>
 </div>
+<table>
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>User</th>
+            <th>Text</th>
+        </tr>
+    </thead>
+    <tr th:each="message: ${messages}">
+        <td th:text="${message.timestamp()}">Timestamp</td>
+        <td th:text="${message.user()}">User</td>
+        <td th:text="${message.text()}">Text</td>
+    </tr>
+</table>
+<div>
+    <form action="/message" method="post">
+        <label for="message-text">Message Text: </label>
+        <input id="message-text" name="text" type="text">
+        <input type="Submit">
+    </form>
+</div>
 </body>
 </html>

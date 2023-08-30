@@ -15,26 +15,40 @@
  */
 package ca.tjug.owaspnightmare;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URI;
 import java.security.Principal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Controller for "/".
- *
- * @author Joe Grandja
- */
 @Controller
-public class IndexController {
+public class MessagesController {
+
+	private final List<Message> messages = new ArrayList<>();
 
 	@GetMapping("/")
 	public ModelAndView index(Principal principal) {
 		final ModelAndView modelAndView = new ModelAndView("messages");
 		modelAndView.addObject("principal", principal);
+		modelAndView.addObject("messages", messages);
 
 		return modelAndView;
 	}
+
+	@PostMapping(value = "/message", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public ResponseEntity<Void> submitMessage(Principal principal, @RequestParam String text) {
+		messages.add(new Message(principal.getName(), Instant.now(), text));
+		return ResponseEntity.status(302).location(URI.create("/")).build();
+	}
+
+	public record Message(String user, Instant timestamp, String text) {}
 
 }
