@@ -18,20 +18,19 @@ package ca.tjug.owaspnightmare;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * An example of explicitly configuring Spring Security with the defaults.
  *
  * @author Rob Winch
  */
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 
 	@Bean
@@ -39,12 +38,11 @@ public class SecurityConfiguration {
 		// @formatter:off
 		http
 				// Don't do this at home, kids
-				.csrf(AbstractHttpConfigurer::disable);
-//				.authorizeHttpRequests((authorize) -> authorize
-//						.anyRequest().authenticated()
-//				);
-//				.httpBasic(withDefaults())
-//				.formLogin(withDefaults());
+				.csrf(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests((authorize) -> authorize
+						.anyRequest().authenticated()
+				)
+			    .oauth2Login(Customizer.withDefaults());
 		// @formatter:on
 		return http.build();
 	}

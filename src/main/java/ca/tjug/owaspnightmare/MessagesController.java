@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URI;
-import java.security.Principal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;

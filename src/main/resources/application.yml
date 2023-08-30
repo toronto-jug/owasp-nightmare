@@ -36,3 +36,9 @@ spring:
             token-uri: https://your-subdomain.oktapreview.com/oauth2/v1/token
             user-info-uri: https://your-subdomain.oktapreview.com/oauth2/v1/userinfo
             jwk-set-uri: https://your-subdomain.oktapreview.com/oauth2/v1/keys
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
